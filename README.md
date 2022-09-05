@@ -1,6 +1,24 @@
 # SwissArmyKnifex
 基于[SwissArmyKnife](https://github.com/android-notes/SwissArmyKnife)，切换到AndroidX && 设配Android11+
 
+# 接入方式
+
+```
+allprojects {
+		repositories {
+			...
+			maven { url 'https://jitpack.io' }
+		}
+	}
+```
+```
+dependencies {
+	        implementation 'com.github.Humenger:SwissArmyKnifex:1.1.0'
+	}
+```
+
+# 以下原版说明
+
 ### SwissArmyKnife
 
 SwissArmyKnife 是一款方便调试android UI的工具。可以直接在android设备屏幕上显示控件的相关信息
