@@ -1,5 +1,5 @@
 # SwissArmyKnifex
-基于[SwissArmyKnife](https://github.com/android-notes/SwissArmyKnife)，切换到AndroidX && 设配Android11+
+基于[SwissArmyKnife](https://github.com/android-notes/SwissArmyKnife) 2.1.0-alpha4修改，切换到AndroidX && 设配Android11+
 
 # 接入方式
 
