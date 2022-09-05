@@ -3,7 +3,7 @@
 
 # 接入方式
 
-```
+```groovy
 allprojects {
 		repositories {
 			...
@@ -11,7 +11,7 @@ allprojects {
 		}
 	}
 ```
-```
+```groovy
 dependencies {
 	        implementation 'com.github.Humenger:SwissArmyKnifex:1.1.0'
 	}
