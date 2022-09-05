@@ -1,5 +1,6 @@
 package com.wanjian.sak.system.input;
 
+import android.annotation.TargetApi;
 import android.os.Build;
 import android.os.Looper;
 import android.util.SparseIntArray;
@@ -17,7 +18,7 @@ public abstract class InputEventReceiverCompact {
   public static void get(ViewRootImpl viewRootImpl, InputEventListener listener) {
     Looper looper = Looper.getMainLooper();//todo
     InputEventReceiver originInputEventReceiver = getOriginInputEventReceiver(viewRootImpl);
-    InputChannel inputChannel = getInputChannel(originInputEventReceiver);
+    InputChannel inputChannel = Build.VERSION.SDK_INT>=Build.VERSION_CODES.R?getInputChannelV30(originInputEventReceiver):getInputChannel(viewRootImpl);
     InputEventReceiver inputEventReceiver;
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
       inputEventReceiver = new InputEventReceiverV29Impl(inputChannel, looper, viewRootImpl, listener, originInputEventReceiver);
@@ -29,7 +30,6 @@ public abstract class InputEventReceiverCompact {
       throw new RuntimeException("unsuooprt");
     }
     replace(viewRootImpl, originInputEventReceiver, inputEventReceiver);
-
   }
 
   private static InputEventReceiver getOriginInputEventReceiver(ViewRootImpl viewRootImpl) {
@@ -43,9 +43,19 @@ public abstract class InputEventReceiverCompact {
   }
 
 
-  private static InputChannel getInputChannel(Object inputEventReceiver) {
+  private static InputChannel getInputChannel(ViewRootImpl viewRoot) {
     try {
-      Field mInputChannelF =InputEventReceiver.class.getDeclaredField("mInputChannel");
+      Field mInputChannelF = ViewRootImpl.class.getDeclaredField("mInputChannel");
+      mInputChannelF.setAccessible(true);
+      return (InputChannel) mInputChannelF.get(viewRoot);
+    } catch (Exception e) {
+      throw new RuntimeException(e);
+    }
+  }
+  @TargetApi(Build.VERSION_CODES.R)
+  private static InputChannel getInputChannelV30(Object inputEventReceiver) {
+    try {
+      Field mInputChannelF = InputEventReceiver.class.getDeclaredField("mInputChannel");
       mInputChannelF.setAccessible(true);
       return (InputChannel) mInputChannelF.get(inputEventReceiver);
     } catch (Exception e) {
