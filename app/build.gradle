@@ -1,0 +1,38 @@
+apply plugin: 'com.android.application'
+
+android {
+    compileSdkVersion 31
+    defaultConfig {
+        minSdkVersion 15
+        targetSdkVersion 31
+        versionCode 1
+        versionName "1.0"
+        applicationId 'com.wanjian.sak.demo'
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    lintOptions {
+        abortOnError false
+    }
+
+}
+
+dependencies {
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
+    implementation 'me.weishu:free_reflection:1.2.0'
+    implementation 'androidx.appcompat:appcompat:1.3.1'
+    implementation project(':saklib')
+//    implementation 'com.wanjian:sak-autopilot:0.2.2'
+    // https://mvnrepository.com/artifact/com.squareup.leakcanary/leakcanary-android
+//    compile group: 'com.squareup.leakcanary', name: 'leakcanary-android', version: '1.5.4'
+//    implementation 'com.squareup.leakcanary:plumber-android:2.4'
+//    implementation 'com.squareup.leakcanary:leakcanary-android:2.4'
+
+}
+
+
