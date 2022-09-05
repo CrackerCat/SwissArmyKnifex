@@ -13,7 +13,7 @@ allprojects {
 ```
 ```groovy
 dependencies {
-	        implementation 'com.github.Humenger:SwissArmyKnifex:1.1.0'
+	        implementation 'com.github.Humenger.SwissArmyKnifex:saklib:1.1.0'
 	}
 ```
 
