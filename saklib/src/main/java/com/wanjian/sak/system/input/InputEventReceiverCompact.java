@@ -15,9 +15,9 @@ import java.lang.reflect.Field;
 public abstract class InputEventReceiverCompact {
 
   public static void get(ViewRootImpl viewRootImpl, InputEventListener listener) {
-    InputChannel inputChannel = getInputChannel(viewRootImpl);
     Looper looper = Looper.getMainLooper();//todo
     InputEventReceiver originInputEventReceiver = getOriginInputEventReceiver(viewRootImpl);
+    InputChannel inputChannel = getInputChannel(originInputEventReceiver);
     InputEventReceiver inputEventReceiver;
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
       inputEventReceiver = new InputEventReceiverV29Impl(inputChannel, looper, viewRootImpl, listener, originInputEventReceiver);
@@ -29,6 +29,7 @@ public abstract class InputEventReceiverCompact {
       throw new RuntimeException("unsuooprt");
     }
     replace(viewRootImpl, originInputEventReceiver, inputEventReceiver);
+
   }
 
   private static InputEventReceiver getOriginInputEventReceiver(ViewRootImpl viewRootImpl) {
@@ -42,11 +43,11 @@ public abstract class InputEventReceiverCompact {
   }
 
 
-  private static InputChannel getInputChannel(ViewRootImpl viewRoot) {
+  private static InputChannel getInputChannel(Object inputEventReceiver) {
     try {
-      Field mInputChannelF = ViewRootImpl.class.getDeclaredField("mInputChannel");
+      Field mInputChannelF =InputEventReceiver.class.getDeclaredField("mInputChannel");
       mInputChannelF.setAccessible(true);
-      return (InputChannel) mInputChannelF.get(viewRoot);
+      return (InputChannel) mInputChannelF.get(inputEventReceiver);
     } catch (Exception e) {
       throw new RuntimeException(e);
     }

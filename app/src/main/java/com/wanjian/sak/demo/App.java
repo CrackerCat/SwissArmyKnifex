@@ -1,13 +1,16 @@
 package com.wanjian.sak.demo;
 
 import android.app.Application;
+import android.content.Context;
 import android.content.res.Resources;
 import android.util.DisplayMetrics;
+
+import me.weishu.reflection.Reflection;
 
 //import com.squareup.leakcanary.LeakCanary;
 
 //import leakcanary.LeakCanary;
-import me.weishu.reflection.Reflection;
+
 
 /**
  * Created by wanjian on 2018/2/9.
@@ -15,8 +18,8 @@ import me.weishu.reflection.Reflection;
 
 public class App extends Application {
     @Override
-    public void onCreate() {
-        super.onCreate();
-        me.weishu.reflection.Reflection.unseal(this);
+    protected void attachBaseContext(Context base) {
+        super.attachBaseContext(base);
+        Reflection.unseal(base);
     }
 }

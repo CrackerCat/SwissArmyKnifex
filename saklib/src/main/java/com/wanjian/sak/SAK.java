@@ -1,11 +1,14 @@
 package com.wanjian.sak;
 
+import android.annotation.TargetApi;
 import android.app.Application;
 import android.content.Intent;
 import android.os.Build;
 import android.provider.Settings;
 import android.util.Log;
 import android.widget.Toast;
+
+import androidx.annotation.RequiresApi;
 
 import com.wanjian.sak.config.Config;
 import com.wanjian.sak.layer.impl.ActivityNameLayerView;
@@ -31,14 +34,16 @@ import com.wanjian.sak.layer.impl.WidthHeightLayer;
 
 public class SAK {
   private static Scaffold sScaffold;
-
+  @TargetApi(Build.VERSION_CODES.LOLLIPOP)
   public static void init(Application application, Config config) {
     if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
       Log.w("SAK", "暂不支持Android5.0以下设备");
       return;
     }
 
-    if (application.getApplicationInfo().targetSdkVersion >= Build.VERSION_CODES.M && !Settings.canDrawOverlays(application)) {
+    if (application.getApplicationInfo().targetSdkVersion >= Build.VERSION_CODES.M
+            &&Build.VERSION.SDK_INT>=Build.VERSION_CODES.M
+            &&!Settings.canDrawOverlays(application)) {
 //      if (ContextCompat.checkSelfPermission(application, Manifest.permission.SYSTEM_ALERT_WINDOW) != PackageManager.PERMISSION_GRANTED) {
       Toast.makeText(application, "需要悬浮窗权限才能使用SwissArmyKnife", Toast.LENGTH_LONG).show();
       Intent intent = new Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION);
