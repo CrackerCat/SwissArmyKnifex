@@ -59,27 +59,21 @@ public class OptPanelView extends LinearLayout {
     unitGroup = (LinearLayout) findViewById(R.id.unitGroup);
     clipDraw = (CheckBox) findViewById(R.id.clipDraw);
 
-    findViewById(R.id.confirm).setOnClickListener(new OnClickListener() {
-      @Override
-      public void onClick(View v) {
+    findViewById(R.id.confirm).setOnClickListener(v -> {
+      if (confirmListener != null) {
+        confirmListener.onClick(v);
+      }
+    });
+    findViewById(R.id.help).setOnClickListener(v -> {
+      final Uri uri = Uri.parse("https://github.com/Humenger/SwissArmyKnifex");
+      final Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+      intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+      try {
+        getContext().startActivity(intent);
         if (confirmListener != null) {
           confirmListener.onClick(v);
         }
-      }
-    });
-    findViewById(R.id.help).setOnClickListener(new OnClickListener() {
-      @Override
-      public void onClick(View v) {
-        final Uri uri = Uri.parse("https://github.com/android-notes/SwissArmyKnife/blob/master/README.md");
-        final Intent intent = new Intent(Intent.ACTION_VIEW, uri);
-        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        try {
-          getContext().startActivity(intent);
-          if (confirmListener != null) {
-            confirmListener.onClick(v);
-          }
-        } catch (Exception e) {
-        }
+      } catch (Exception e) {
       }
     });
 
@@ -205,20 +199,17 @@ public class OptPanelView extends LinearLayout {
 
   private void setFunctions() {
     setAdapter(config.getLayerList());
-    function.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-      @Override
-      public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        Item item = config.getLayerList().get(position);
-        item.setEnable(!item.isEnable());
-        //GridScroller 不复用控件，可以直接修改view
-        Holder holder = (Holder) view.getTag(R.layout.sak_function_item);
-        if (item.isEnable()) {
-          holder.check.setVisibility(VISIBLE);
-        } else {
-          holder.check.setVisibility(GONE);
-        }
-        update();
+    function.setOnItemClickListener((parent, view, position, id) -> {
+      Item item = config.getLayerList().get(position);
+      item.setEnable(!item.isEnable());
+      //GridScroller 不复用控件，可以直接修改view
+      Holder holder = (Holder) view.getTag(R.layout.sak_function_item);
+      if (item.isEnable()) {
+        holder.check.setVisibility(VISIBLE);
+      } else {
+        holder.check.setVisibility(GONE);
       }
+      update();
     });
   }
 

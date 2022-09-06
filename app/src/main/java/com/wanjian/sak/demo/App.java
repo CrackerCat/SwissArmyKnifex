@@ -30,12 +30,12 @@ public class App extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-        viewActivityAndFragments(this);
+//        viewActivityAndFragments(this);
     }
 
     public static void viewActivityAndFragments(Application application){
         @SuppressLint("UseCompatLoadingForDrawables")
-        Config config=new Config.Build(application.getApplicationContext())
+        Config config=new Config.Build(application.getApplicationContext(),true)
 //                    .addLayer(TestLayer.class)
 //                .addLayer(BorderLayer.class, getIcon(R.drawable.sak_border_icon), getString(R.string.sak_border))
 //                .addLayer(GridLayer.class, getIcon(R.drawable.sak_grid_icon), getString(R.string.sak_grid))

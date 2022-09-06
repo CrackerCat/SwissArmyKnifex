@@ -146,4 +146,4 @@ SwissArmyKnife 是一款方便调试android UI的工具。可以直接在android
 [http://t.cn/EVB3rcm](http://t.cn/EVB3rcm)
 
 ### 功能拓展
-[https://github.com/android-notes/SwissArmyKnife/blob/master/README_Dev.md](https://github.com/android-notes/SwissArmyKnife/blob/master/README_Dev.md)
+[README_Dev.md](./README_Dev.md)

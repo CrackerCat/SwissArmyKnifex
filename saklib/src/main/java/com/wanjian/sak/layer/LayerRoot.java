@@ -54,7 +54,7 @@ public final class LayerRoot implements EventListener {
       rootCanvas.drawColor(0, PorterDuff.Mode.CLEAR);
       rootView.draw(rootCanvas);
       for (Layer layer : layers) {
-        if (layer.isEnable() == false) {
+        if (!layer.isEnable()) {
           continue;
         }
         rootCanvas.save();
@@ -65,7 +65,7 @@ public final class LayerRoot implements EventListener {
       return;
     }
     for (Layer layer : layers) {
-      if (layer.isEnable() == false) {
+      if (!layer.isEnable()) {
         continue;
       }
       RenderNodeCompact renderNode = layer.getRenderNode();

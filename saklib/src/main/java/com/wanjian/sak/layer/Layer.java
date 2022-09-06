@@ -33,6 +33,7 @@ public abstract class Layer implements EventListener {
     this.application = application;
     this.layerRoot = layerRoot;
     this.rootView = rootView;
+    this.isEnable=config.isNoConsole();
     renderNode = RenderNodeCompact.create(getClass().getName());
     onAttach(getRootView());
   }

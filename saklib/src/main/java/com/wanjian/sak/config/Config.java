@@ -30,6 +30,7 @@ public class Config {
     private int endRange;
     private boolean clipDraw;
     List<Item>mLayerList;
+    private boolean noConsole;
     private Config(Build build) {
 //        mLayerViews.addAll(build.mDefaultLayerViews);
 //        mLayerViews.addAll(build.mCustomerLayerViews);
@@ -41,6 +42,7 @@ public class Config {
         maxRange = build.max;
         clipDraw = build.clipDraw;
         mLayerList = build.mLayerList;
+        noConsole=build.noConsole;
     }
 
     public List<Item> getLayerList() {
@@ -90,6 +92,10 @@ public class Config {
         return maxRange;
     }
 
+    public boolean isNoConsole() {
+        return noConsole;
+    }
+
     public static class Build {
         Context mContext;
         List<ISizeConverter> mSizeConverterList = new ArrayList<>();
@@ -98,8 +104,9 @@ public class Config {
         int min = 0;
         int max = 50;
         boolean clipDraw = true;
+        boolean noConsole=false;
 
-        public Build(Context context) {
+        public Build(Context context,boolean noConsole) {
             Check.isNull(context, "context");
             mContext = context.getApplicationContext();
 
@@ -108,6 +115,7 @@ public class Config {
             mSizeConverterList.add(new OriginSizeConverter());
             mSizeConverterList.add(new Px2SpSizeConverter());
             mViewFilter = ViewFilter.FILTER;
+            this.noConsole=noConsole;
         }
 
         public Build addSizeConverter(ISizeConverter sizeConverter) {
@@ -147,9 +155,12 @@ public class Config {
         }
 
         public Build addLayer(Class<? extends Layer> clz, Drawable icon, String iconName) {
-            mLayerList.add(new Item(clz,icon,iconName));
+            Item item=new Item(clz,icon,iconName);
+            item.setEnable(noConsole);
+            mLayerList.add(item);
             return this;
         }
+
         public Config build() {
             return new Config(this);
         }

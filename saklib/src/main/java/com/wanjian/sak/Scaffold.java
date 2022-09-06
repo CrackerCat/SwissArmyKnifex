@@ -30,15 +30,12 @@ final class Scaffold {
         if (view instanceof SAKContainerView) {
           return;
         }
-        view.post(new Runnable() {
-          @Override
-          public void run() {
-            LayerRoot layerRoot = LayerRoot.create(config, viewRootImpl, view, sApplication);
-            OptionPanelUtils.enableIfNeeded(layerRoot);
-            observerUIChange(config, layerRoot, viewRootImpl, view);
-            observerInputEvent(config, layerRoot, viewRootImpl, view);
-            OptionPanelUtils.addLayerRoot(layerRoot);
-          }
+        view.post(() -> {
+          LayerRoot layerRoot = LayerRoot.create(config, viewRootImpl, view, sApplication);
+          OptionPanelUtils.enableIfNeeded(layerRoot);
+          observerUIChange(config, layerRoot, viewRootImpl, view);
+          observerInputEvent(config, layerRoot, viewRootImpl, view);
+          OptionPanelUtils.addLayerRoot(layerRoot);
         });
       }
 

@@ -11,6 +11,7 @@ import android.widget.Toast;
 import androidx.annotation.RequiresApi;
 
 import com.wanjian.sak.config.Config;
+import com.wanjian.sak.layer.Layer;
 import com.wanjian.sak.layer.impl.ActivityNameLayerView;
 import com.wanjian.sak.layer.impl.BorderLayer;
 import com.wanjian.sak.layer.impl.FragmentNameLayer;
@@ -34,23 +35,35 @@ import com.wanjian.sak.layer.impl.WidthHeightLayer;
 
 public class SAK {
   private static Scaffold sScaffold;
+
+  @SafeVarargs
+  public static void initNoConsole(Application application, Class<?extends Layer>... classes){
+      Config.Build build = new Config.Build(application,true);
+      for (Class<?extends Layer>cls:classes){
+        build.addLayer(cls, application.getResources().getDrawable(R.drawable.sak_border_icon), application.getString(R.string.sak_border));
+      }
+      init(application,build.build());
+  }
+
+
   @TargetApi(Build.VERSION_CODES.LOLLIPOP)
   public static void init(Application application, Config config) {
     if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
       Log.w("SAK", "暂不支持Android5.0以下设备");
       return;
     }
-
-    if (application.getApplicationInfo().targetSdkVersion >= Build.VERSION_CODES.M
-            &&Build.VERSION.SDK_INT>=Build.VERSION_CODES.M
-            &&!Settings.canDrawOverlays(application)) {
+    if(config==null||!config.isNoConsole()) {
+      if (application.getApplicationInfo().targetSdkVersion >= Build.VERSION_CODES.M
+              && Build.VERSION.SDK_INT >= Build.VERSION_CODES.M
+              && !Settings.canDrawOverlays(application)) {
 //      if (ContextCompat.checkSelfPermission(application, Manifest.permission.SYSTEM_ALERT_WINDOW) != PackageManager.PERMISSION_GRANTED) {
-      Toast.makeText(application, "需要悬浮窗权限才能使用SwissArmyKnife", Toast.LENGTH_LONG).show();
-      Intent intent = new Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION);
-      intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-      application.startActivity(intent);
-      return;
+        Toast.makeText(application, "需要悬浮窗权限才能使用SwissArmyKnife", Toast.LENGTH_LONG).show();
+        Intent intent = new Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        application.startActivity(intent);
+        return;
 //      }
+      }
     }
     if (sScaffold != null) {
       return;
@@ -59,7 +72,7 @@ public class SAK {
 
 
     if (config == null) {
-      config = new Config.Build(application)
+      config = new Config.Build(application,false)
           .addLayer(BorderLayer.class, application.getDrawable(R.drawable.sak_border_icon), application.getString(R.string.sak_border))
           .addLayer(GridLayer.class, application.getDrawable(R.drawable.sak_grid_icon), application.getString(R.string.sak_grid))
           .addLayer(PaddingLayer.class, application.getDrawable(R.drawable.sak_padding_icon), application.getString(R.string.sak_padding))

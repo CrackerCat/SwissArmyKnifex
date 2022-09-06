@@ -79,12 +79,7 @@ public class OptionPanelUtils {
     });
     optPanelView = new OptPanelView(application);
     optPanelView.attachConfig(config);
-    entranceView.setOnClickListener(new View.OnClickListener() {
-      @Override
-      public void onClick(View v) {
-        showOptPanel(application, config);
-      }
-    });
+    entranceView.setOnClickListener(v -> showOptPanel(application, config));
   }
 
   private static double distance(float downX, float downY, float curX, float curY) {
@@ -110,12 +105,9 @@ public class OptionPanelUtils {
     }
     windowManager.addView(containerView, params);
 
-    optPanelView.setConfirmListener(new View.OnClickListener() {
-      @Override
-      public void onClick(View v) {
-        containerView.removeAllViews();
-        windowManager.removeView(containerView);
-      }
+    optPanelView.setConfirmListener(v -> {
+      containerView.removeAllViews();
+      windowManager.removeView(containerView);
     });
   }
 
