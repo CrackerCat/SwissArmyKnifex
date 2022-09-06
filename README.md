@@ -16,6 +16,10 @@ dependencies {
 	        implementation 'com.github.Humenger.SwissArmyKnifex:saklib:1.1.0'
 	}
 ```
+# 混淆规则
+```
+-keep class com.wanjian.sak.system.**{*;}
+```
 
 # 以下原版说明
 
