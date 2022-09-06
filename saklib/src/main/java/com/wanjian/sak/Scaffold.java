@@ -76,8 +76,8 @@ final class Scaffold {
     });
   }
 
+  public void unInstall() {
+    //todo
+  }
 
-//  public void unInstall() {
-//
-//  }
 }

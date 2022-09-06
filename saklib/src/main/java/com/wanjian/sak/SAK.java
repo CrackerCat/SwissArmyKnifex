@@ -36,9 +36,7 @@ import me.weishu.reflection.Reflection;
 @TargetApi(Build.VERSION_CODES.LOLLIPOP)
 public class SAK {
   private static Scaffold sScaffold;
-  public static void preInitOnAttachBaseContext(Context base){
-    Reflection.unseal(base);
-  }
+  private static int unsealStatus=1;
   @SafeVarargs
   public static void installNoConsole(Application application, Class<?extends Layer>... classes){
       Config.Build build = new Config.Build(application,true);
@@ -49,6 +47,9 @@ public class SAK {
   }
 
   public static void install(Application application, Config config) {
+    if(unsealStatus==1){
+      unsealStatus=Reflection.unseal(application.getApplicationContext());
+    }
     if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
       Log.w("SAK", "暂不支持Android5.0以下设备");
       return;
@@ -97,12 +98,12 @@ public class SAK {
 
   private SAK() {
   }
-//
-//  public static void unInstall() {
-//    if (sScaffold != null) {
-//      sScaffold.unInstall();
-//      sScaffold = null;
-//    }
-//  }
+
+  public static void unInstall() {
+    if (sScaffold != null) {
+      sScaffold.unInstall();
+      sScaffold = null;
+    }
+  }
 
 }

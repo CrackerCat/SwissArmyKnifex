@@ -6,25 +6,20 @@
 ```groovy
 allprojects {
 		repositories {
-			...
+			//...
 			maven { url 'https://jitpack.io' }
 		}
 	}
 ```
 ```groovy
 dependencies {
-	        implementation 'com.github.Humenger.SwissArmyKnifex:saklib:1.1.0'
+	        implementation 'com.github.Humenger.SwissArmyKnifex:saklib:1.2.0'
 	}
 ```
 # 使用步骤
 ```java
 
 public class App extends Application {
-    @Override
-    protected void attachBaseContext(Context base) {
-        super.attachBaseContext(base);
-        SAK.preInitOnAttachBaseContext(base);
-    }
      @Override
     public void onCreate() {
         super.onCreate();
@@ -56,7 +51,17 @@ Config config=new Config.Build(application.getApplicationContext(),true)
 }
 
 ```
+无控制台初始化
+```java
+public class App extends Application {
+     @Override
+    public void onCreate() {
+        super.onCreate();
+        SAK.installNoConsole(application,ActivityNameLayerView.class,FragmentNameLayer.class);
+    }
+}
 
+```
 # 混淆规则
 ```
 -keep class com.wanjian.sak.system.**{*;}
