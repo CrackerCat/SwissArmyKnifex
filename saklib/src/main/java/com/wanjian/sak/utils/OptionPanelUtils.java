@@ -45,7 +45,9 @@ public class OptionPanelUtils {
     } else {
       params.type = WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY;
     }
-    windowManager.addView(containerView, params);
+    if(!config.isNoConsole()){
+      windowManager.addView(containerView, params);
+    }
     entranceView.setOnTouchListener(new View.OnTouchListener() {
       float lastX;
       float lastY;
@@ -103,8 +105,9 @@ public class OptionPanelUtils {
     } else {
       params.type = WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY;
     }
-    windowManager.addView(containerView, params);
-
+    if(!config.isNoConsole()){
+      windowManager.addView(containerView, params);
+    }
     optPanelView.setConfirmListener(v -> {
       containerView.removeAllViews();
       windowManager.removeView(containerView);

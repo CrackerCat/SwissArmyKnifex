@@ -6,8 +6,8 @@ android {
     defaultConfig {
         minSdkVersion 14
         targetSdkVersion 31
-        versionCode 1
-        versionName "1.0"
+        versionCode 2
+        versionName "1.1"
     }
     buildTypes {
         release {
@@ -26,6 +26,7 @@ dependencies {
     // https://mvnrepository.com/artifact/com.android.support/support-v4
     //noinspection GradleCompatible
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
+    implementation 'com.github.tiann:FreeReflection:3.1.0'
     compileOnly project(path: ':systemlib')
 }
 

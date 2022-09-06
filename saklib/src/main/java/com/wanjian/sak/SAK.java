@@ -2,13 +2,12 @@ package com.wanjian.sak;
 
 import android.annotation.TargetApi;
 import android.app.Application;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import android.provider.Settings;
 import android.util.Log;
 import android.widget.Toast;
-
-import androidx.annotation.RequiresApi;
 
 import com.wanjian.sak.config.Config;
 import com.wanjian.sak.layer.Layer;
@@ -29,25 +28,27 @@ import com.wanjian.sak.layer.impl.VerticalMeasureView;
 import com.wanjian.sak.layer.impl.ViewClassLayer;
 import com.wanjian.sak.layer.impl.WidthHeightLayer;
 
+import me.weishu.reflection.Reflection;
+
 /**
  * Created by wanjian on 2017/2/20.
  */
-
+@TargetApi(Build.VERSION_CODES.LOLLIPOP)
 public class SAK {
   private static Scaffold sScaffold;
-
+  public static void preInitOnAttachBaseContext(Context base){
+    Reflection.unseal(base);
+  }
   @SafeVarargs
-  public static void initNoConsole(Application application, Class<?extends Layer>... classes){
+  public static void installNoConsole(Application application, Class<?extends Layer>... classes){
       Config.Build build = new Config.Build(application,true);
       for (Class<?extends Layer>cls:classes){
         build.addLayer(cls, application.getResources().getDrawable(R.drawable.sak_border_icon), application.getString(R.string.sak_border));
       }
-      init(application,build.build());
+      install(application,build.build());
   }
 
-
-  @TargetApi(Build.VERSION_CODES.LOLLIPOP)
-  public static void init(Application application, Config config) {
+  public static void install(Application application, Config config) {
     if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
       Log.w("SAK", "暂不支持Android5.0以下设备");
       return;
